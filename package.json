@@ -1,6 +1,6 @@
 {
-  "name": "protobufjs",
-  "version": "6.8.8",
+  "name": "@convoy/protobufjs",
+  "version": "6.8.8-convoy.0",
   "versionScheme": "~",
   "description": "Protocol Buffers for JavaScript (& TypeScript).",
   "author": "Daniel Wirtz <dcode+protobufjs@dcode.io>",
@@ -38,7 +38,7 @@
     "test-types": "tsc tests/comp_typescript.ts --lib es2015 --strictNullChecks --experimentalDecorators --emitDecoratorMetadata && tsc tests/data/test.js.ts --lib es2015 --noEmit --strictNullChecks && tsc tests/data/rpc.ts --lib es2015 --noEmit --strictNullChecks",
     "types": "node bin/pbts --main --global protobuf --out index.d.ts src/ lib/aspromise/index.js lib/base64/index.js lib/codegen/index.js lib/eventemitter/index.js lib/float/index.js lib/fetch/index.js lib/inquire/index.js lib/path/index.js lib/pool/index.js lib/utf8/index.js && npm run test-types",
     "make": "npm run test && npm run types && npm run build && npm run lint",
-    "release": "npm run make && npm run changelog"
+    "release": "npm run make && npm run changelog && node ./node_modules/@convoy/typescript-core-scripts/scripts/release.js"
   },
   "dependencies": {
     "@protobufjs/aspromise": "^1.1.2",
@@ -56,6 +56,7 @@
     "long": "^4.0.0"
   },
   "devDependencies": {
+    "@convoy/typescript-core-scripts": "^2.4.4",
     "benchmark": "^2.1.4",
     "browserify": "^16.2.2",
     "browserify-wrap": "^1.0.2",
