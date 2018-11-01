@@ -1,6 +1,6 @@
 /*!
- * protobuf.js v6.8.8 (c) 2016, daniel wirtz
- * compiled thu, 19 jul 2018 00:33:25 utc
+ * protobuf.js v6.8.8-convoy.0 (c) 2016, daniel wirtz
+ * compiled thu, 01 nov 2018 17:18:34 utc
  * licensed under the bsd-3-clause license
  * see: https://github.com/dcodeio/protobuf.js for details
  */
@@ -1633,8 +1633,9 @@ var Namespace = require(21),
  * @param {Object.<string,*>} [options] Declared options
  * @param {string} [comment] The comment for this enum
  * @param {Object.<string,string>} [comments] The value comments for this enum
+ * @param {Object.<string,Object<string,*>>} [valueOptions] Declared options for values of this enum
  */
-function Enum(name, values, options, comment, comments) {
+function Enum(name, values, options, comment, comments, valueOptions) {
     ReflectionObject.call(this, name, options);
 
     if (values && typeof values !== "object")
@@ -1670,6 +1671,12 @@ function Enum(name, values, options, comment, comments) {
      */
     this.reserved = undefined; // toJSON
 
+    /**
+     *  Declared options for values of this enum.
+     * @type {Object.<string,Object<string,*>>|undefined}
+     */
+    this.valueOptions = valueOptions; // toJSON
+
     // Note that values inherit valuesById on their prototype which makes them a TypeScript-
     // compatible enum. This is used by pbts to write actual enum definitions that work for
     // static and reflection code alike instead of emitting generic object definitions.
@@ -1685,6 +1692,7 @@ function Enum(name, values, options, comment, comments) {
  * @interface IEnum
  * @property {Object.<string,number>} values Enum values
  * @property {Object.<string,*>} [options] Enum options
+ * @property {Object.<string,Object<string,*>>} [valueOptions] Declared options for values of this enum
  */
 
 /**
@@ -1695,7 +1703,7 @@ function Enum(name, values, options, comment, comments) {
  * @throws {TypeError} If arguments are invalid
  */
 Enum.fromJSON = function fromJSON(name, json) {
-    var enm = new Enum(name, json.values, json.options, json.comment, json.comments);
+    var enm = new Enum(name, json.values, json.options, json.comment, json.comments, json.valueOptions);
     enm.reserved = json.reserved;
     return enm;
 };
@@ -1709,12 +1717,29 @@ Enum.prototype.toJSON = function toJSON(toJSONOptions) {
     var keepComments = toJSONOptions ? Boolean(toJSONOptions.keepComments) : false;
     return util.toObject([
         "options"  , this.options,
+        "valueOptions"  , this.valueOptions,
         "values"   , this.values,
         "reserved" , this.reserved && this.reserved.length ? this.reserved : undefined,
         "comment"  , keepComments ? this.comment : undefined,
         "comments" , keepComments ? this.comments : undefined
     ]);
 };
+
+/**
+ * Adds an option for a specific enum value.
+ * @param {string} [valueName] Enum value for option
+ * @param {string} [optionName] Name of option
+ * @param {*} [optionValue] Value of option
+ * @returns {Enum} `this`
+ */
+Enum.prototype.setValueOption = function(valueName, optionName, optionValue) {
+  if (!this.valueOptions)
+    this.valueOptions = {};
+  if (!this.valueOptions[valueName])
+    this.valueOptions[valueName] = {};
+  this.valueOptions[valueName][optionName] = optionValue;
+  return this;
+}
 
 /**
  * Adds a value to this enum.
@@ -2798,7 +2823,7 @@ Namespace.arrayToJSON = arrayToJSON;
 Namespace.isReservedId = function isReservedId(reserved, id) {
     if (reserved)
         for (var i = 0; i < reserved.length; ++i)
-            if (typeof reserved[i] !== "string" && reserved[i][0] <= id && reserved[i][1] >= id)
+            if (typeof reserved[i] !== "string" && reserved[i][0] <= id && reserved[i][1] > id)
                 return true;
     return false;
 };

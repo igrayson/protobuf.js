@@ -1,3 +1,5 @@
+# [6.8.8-convoy.0](https://github.com/dcodeIO/protobuf.js/releases/tag/6.8.8-convoy.0)
+
 # [6.8.8](https://github.com/dcodeIO/protobuf.js/releases/tag/6.8.8)
 
 ## Fixed
