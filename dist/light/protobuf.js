@@ -1,6 +1,6 @@
 /*!
  * protobuf.js v6.8.8-convoy.0 (c) 2016, daniel wirtz
- * compiled thu, 01 nov 2018 20:31:04 utc
+ * compiled fri, 16 nov 2018 17:24:31 utc
  * licensed under the bsd-3-clause license
  * see: https://github.com/dcodeio/protobuf.js for details
  */

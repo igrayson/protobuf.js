@@ -1,5 +1,9 @@
 # [6.8.8-convoy.0](https://github.com/dcodeIO/protobuf.js/releases/tag/6.8.8-convoy.0)
 
+## Other
+[:hash:](https://github.com/dcodeIO/protobuf.js/commit/6b644fa93aedb9bb4cf7fef9531704eaba5e8078) replace protobufjs with @convoy/protobufjs<br />
+[:hash:](https://github.com/dcodeIO/protobuf.js/commit/6f094b99eea1ce4deffb3c069f8e1588db323bce) @convoy release script<br />
+
 # [6.8.8](https://github.com/dcodeIO/protobuf.js/releases/tag/6.8.8)
 
 ## Fixed
